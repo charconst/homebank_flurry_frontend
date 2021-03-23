@@ -1,6 +1,9 @@
 {
   "name": "homebank_app",
   "version": "0.1.0",
+  "engines": {
+    "node": ">=15.0.0"
+  },
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.1",
