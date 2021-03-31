@@ -1,15 +1,49 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { ComponentClass } from 'react';
 import './App.css';
 import 'tailwindcss/dist/tailwind.css'
-import Main from './ui/Main'
 import AppHeader from './AppHeader'
+import Helmet from 'react-helmet';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import Home from "../src/ui/pages/Home";
+import SignInPage from "../src/ui/pages/SignInPage";
+
+interface RouteWithTitleProps {
+    title: string,
+    path: string,
+    exact?: boolean
+    component: ComponentClass,
+}
+
+class RouteWithTitle extends React.Component<RouteWithTitleProps> {
+    render() {
+        console.log(this.props.title);
+        return (
+            <>
+            <Helmet>
+                <title>{this.props.title}</title>
+            </Helmet>
+            <Route exact={this.props.exact} path={this.props.path} component={this.props.component}/>
+            </>
+        )
+    }
+}
+
+const Main = () => {
+    return (
+            <Switch>
+                <RouteWithTitle exact title='HomeBank' path='/' component={Home}></RouteWithTitle>
+                <RouteWithTitle exact title='HomeBank | Sign In' path="/signin" component={SignInPage}></RouteWithTitle>
+            </Switch>        
+    );
+}
 
 function App() {
   return (
     <div className="App">
-      <AppHeader/>
-      <Main/>
+      <BrowserRouter>
+        <AppHeader/>
+        <Main/>
+      </BrowserRouter>
     </div>
   );
 }
