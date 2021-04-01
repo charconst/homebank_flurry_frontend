@@ -9,21 +9,16 @@ class Home extends React.Component {
                 <ReactAudioPlayer controls src="https://storage.googleapis.com/homebank-public-audio/test.mp3"></ReactAudioPlayer>
                 <h2>Instructions</h2>
                 <p>
-                Listen carefully because you will only 
-              get one opportunity to listen.Be on the lookout for any 
-              clearly audible vocalization that is primarily communicative 
-              or playful, such as speech, babble, cooing, crying, sighing,
-              laughing, raspberries, clicks, etc. Please ignore vegetative 
-              sounds, such as heavy breathing, hiccups, sneezes, sniffles, 
-              and coughs, unless they appear to have been produced with a 
-              communicative or playful purpose. You will be asked to enter 
-              the codes (no spaces between) for the types of voices you 
-              heard in the segment that just played. Codes: t for child 
-              wearing the recorder, o for another child, a for adult. If 
-              there are multiple voices present, enter the multiple codes 
-              without spaces in between. Order of the codes does not matter.
-               Leave the space blank if you did not hear any communicative 
-              or playful vocalizations.
+                Listen carefully because you will only get one opportunity to listen.
+                You will be asked about the prominence within the clip of the voice 
+                of the child wearing the recorder (i.e. the target child) compared to 
+                all other sounds, such as other voices, background noise, rustling, etc.
+                A target child vocalization may include speech, singing, babble, crying,
+                trilling the lips, coughing, grunting, or any other sound produced
+                using the throat, lips, and/or tongue.
+                Note that the target child in this case is +ageYYMMDD[0:2]+ year(s), +ageYYMMDD[2:4]+ month(s), 
+                and +ageYYMMDD[4:6]+ day(s) old.
+                Press return to play the sound.
                 </p>
             </div>
         )
