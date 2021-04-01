@@ -1,10 +1,12 @@
 import React from 'react';
+import ReactAudioPlayer from 'react-audio-player';
 
 class Home extends React.Component {
     render() {
         return (
             <div>
                 <h1>/ default route</h1>
+                <ReactAudioPlayer controls src="https://storage.googleapis.com/homebank-public-audio/test.mp3"></ReactAudioPlayer>
                 <h2>Instructions</h2>
                 <p>
                 Listen carefully because you will only 
