@@ -7,9 +7,9 @@ interface UserRatingKeyboardKeyProps {
 class UserRatingKeyboardKey extends React.Component<UserRatingKeyboardKeyProps> {
     render() {
         return (
-            <div className="flex items-center justify-center rounded shadow-sm outline-black w-16 h-16 bg-gray-100">
-                <div className="font-semibold">{this.props.title}</div>
-            </div>
+            <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded flex-initial m-2">
+                        {this.props.title}
+            </button>
         )
     }
 }
