@@ -8,8 +8,6 @@ class Home extends React.Component {
             <div className="container mx-auto">
                 <h1>/ default route</h1>
                 <AudioClipContainer></AudioClipContainer>
-                <AudioClipContainer></AudioClipContainer>
-                <AudioClipContainer></AudioClipContainer>
             </div>
         )
     }
