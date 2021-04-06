@@ -6,7 +6,7 @@ class AudioClipContainer extends React.Component {
         return (
             <div className="rounded overflow-hidden shadow-lg text-center">
                 <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">HomeBank Audio Clip</div>
+                <div className="font-bold text-xl mb-2">HomeBank Audio Classification</div>
                 <p className="text-gray-700 text-base">
                 Listen carefully because you will only get one opportunity to listen.
                 You will be asked about the prominence within the clip of the voice 
