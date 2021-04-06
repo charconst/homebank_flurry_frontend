@@ -9,7 +9,15 @@ class AudioClipContainer extends React.Component {
                 <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">HomeBank Audio Clip</div>
                 <p className="text-gray-700 text-base">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
+                Listen carefully because you will only get one opportunity to listen.
+                You will be asked about the prominence within the clip of the voice 
+                of the child wearing the recorder (i.e. the target child) compared to 
+                all other sounds, such as other voices, background noise, rustling, etc.
+                A target child vocalization may include speech, singing, babble, crying,
+                trilling the lips, coughing, grunting, or any other sound produced
+                using the throat, lips, and/or tongue.
+                Note that the target child in this case is +ageYYMMDD[0:2]+ year(s), +ageYYMMDD[2:4]+ month(s), 
+                and +ageYYMMDD[4:6]+ day(s) old.
                 </p>
                 <div className="flex h-16 flex-wrap justify-center">
                     <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded flex-initial m-2">
