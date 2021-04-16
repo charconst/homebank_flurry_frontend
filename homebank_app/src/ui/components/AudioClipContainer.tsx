@@ -20,7 +20,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
     }
 
     componentDidMount() {
-        fetch("http://localhost:8081/api/v1/audioqueue")
+        fetch("http://localhost:8080/api/v1/audio_queue")
         .then(res => res.json())
         .then(
             (result) => {
