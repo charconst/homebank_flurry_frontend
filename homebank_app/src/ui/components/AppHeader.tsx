@@ -1,8 +1,8 @@
+import React from 'react';
 import { Link } from "react-router-dom";
 
-export default AppHeader;
-
-function AppHeader() {
+class AppHeader extends React.Component {
+  render() {
     return <div className="header-2 bg-yellow-300">
     <nav className="bg-white py-2 md:py-4 border-b border-gray-200">
       <div className="container px-4 mx-auto md:flex md:items-center">
@@ -21,3 +21,6 @@ function AppHeader() {
     </nav>
   </div>
   }
+}
+
+export default AppHeader;
