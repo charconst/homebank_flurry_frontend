@@ -32,7 +32,7 @@ const Main = () => {
     return (
             <Switch>
                 <RouteWithTitle exact title='HomeBank' path='/' component={Home}></RouteWithTitle>
-                <RouteWithTitle exact title='HomeBank | Sign In' path="/signin" component={SignInPage}></RouteWithTitle>
+                <Route exact path="/signin" component={SignInPage}></Route>
             </Switch>        
     );
 }
