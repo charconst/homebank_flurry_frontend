@@ -20,11 +20,31 @@ axios.interceptors.request.use(
 
 const apiUrl = "http://localhost:8080";
 
+class UserData {
+    creation_timestamp ?: string;
+    email ?: string;
+    id ?: string;
+    name ?: string;
+    picture ?: string;
+
+    constructor(jsonObject: any) {
+        if (jsonObject && jsonObject["user_data"]) {
+            let userData = jsonObject["user_data"]
+            this.creation_timestamp = userData["creation_timestamp"];
+            this.email = userData["email"];
+            this.id = userData["id"];
+            this.name = userData["name"];
+            this.picture = userData["picture"];
+        }
+    }
+}
+
 function SignInPage () {
     const storedJwt = localStorage.getItem('token');
     const storedId = localStorage.getItem('user_id');
     const [jwt, setJwt] = useState(storedJwt || null);
     const [id, setId] = useState(storedId || null);
+    const [user, setUser] = useState<UserData>();
     const [fetchError, setFetchError] = useState(null);
 
     const responseGoogle = async (googleResponse:any) => {
@@ -48,9 +68,12 @@ function SignInPage () {
     const getUserData = async () => {
         try {
             const { data } = await axios.get(`${apiUrl}/api/v1/auth/me`);
+            const userData : UserData = new UserData(data);
+            setUser(userData);
             console.log(data);
             setFetchError(null);
         } catch (err) {
+            setUser(undefined);
             setFetchError(err.message);
         }
     }
@@ -64,9 +87,24 @@ function SignInPage () {
             buttonText="Sign In with Google"
             cookiePolicy={'single_host_origin'}
             />
-            <button onClick={getUserData}>My Profile</button>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" onClick={getUserData}>My Profile</button>
             {fetchError && (
                 <p style={{color: 'red'}}>{fetchError}</p>
+            )}
+            {user && (
+                <div>
+                    <div className="rounded overflow-hidden shadow-lg text-center flex h-16 justify-center">
+                        <div className="flex h-16 justify-center">
+                            <h1 className="text-lg">User: <b>{user.name}</b></h1>
+                            <img className="" src={user.picture}></img>
+                        </div>
+
+                        <div className="flex h-16 justify-center">
+                            <p>Creation Timestamp: {user.creation_timestamp}</p>
+                            <p>E-Mail: {user.email}</p>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );
