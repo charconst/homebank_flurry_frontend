@@ -96,8 +96,11 @@ function SignInPage () {
             buttonText="Sign In with Google"
             cookiePolicy={'single_host_origin'}
             />
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" onClick={getUserData}>My Profile</button>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" onClick={signOut}>Sign Out</button>
+            <div className="m-4">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-2" onClick={getUserData}>My Profile</button>
+                <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full m-2" onClick={signOut}>Sign Out</button>
+            </div>
+            
             {fetchError && (
                 <p style={{color: 'red'}}>{fetchError}</p>
             )}
