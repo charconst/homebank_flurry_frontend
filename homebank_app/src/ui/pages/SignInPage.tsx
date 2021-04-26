@@ -105,19 +105,22 @@ function SignInPage () {
                 <p style={{color: 'red'}}>{fetchError}</p>
             )}
             {id && (
-                <p>Logged In as {id}</p>
+                <p className="text-xl m-4">Logged in as: <b>[{id}]</b></p>
             )}
             {user && (
-                <div>
-                    <div className="rounded overflow-hidden shadow-lg text-center flex h-16 justify-center">
-                        <div className="flex h-16 justify-center">
-                            <h1 className="text-lg">User: <b>{user.name}</b></h1>
-                            <img className="" src={user.picture}></img>
+                <div className="">
+                    <div className="rounded overflow-hidden shadow-lg text-center flex h-32 justify-center m-8">
+                        <div className="flex-col h-16 justify-center m-4 space-x-2">
+                            <div className="relative w-16 h-16">
+                                <img className="rounded-full border border-gray-100 shadow-sm" src={user.picture}></img>
+                            </div>
+                            
+                            <h1 className="text-lg m-2 relative -inset-x-8"><b>{user.name}</b></h1>
                         </div>
 
-                        <div className="flex h-16 justify-center">
-                            <p>Creation Timestamp: {user.creation_timestamp}</p>
-                            <p>E-Mail: {user.email}</p>
+                        <div className="flex-row h-16 justify-center m-4 space-x-2">
+                            <p><i>Account Creation Timestamp: </i><b>{user.creation_timestamp}</b></p>
+                            <p><i>Email Address: </i><b>{user.email}</b></p>
                         </div>
                     </div>
                 </div>
