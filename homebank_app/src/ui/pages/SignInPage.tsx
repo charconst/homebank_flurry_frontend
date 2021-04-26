@@ -64,6 +64,15 @@ function SignInPage () {
             setFetchError(err.message);
         }
     }
+
+    const signOut = async () => {
+        // TODO invalidate token on server
+        localStorage.removeItem('token');
+        localStorage.removeItem('user_id');
+        setJwt(null);
+        setId(null);
+        setUser(undefined);
+    }
     
     const getUserData = async () => {
         try {
@@ -88,8 +97,12 @@ function SignInPage () {
             cookiePolicy={'single_host_origin'}
             />
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" onClick={getUserData}>My Profile</button>
+            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" onClick={signOut}>Sign Out</button>
             {fetchError && (
                 <p style={{color: 'red'}}>{fetchError}</p>
+            )}
+            {id && (
+                <p>Logged In as {id}</p>
             )}
             {user && (
                 <div>
