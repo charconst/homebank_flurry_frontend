@@ -1,12 +1,25 @@
 import React from 'react';
 import ReactAudioPlayer from 'react-audio-player';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import AudioClipProgressHeader from '../components/AudioClipProgressHeader';
 import UserRatingContainer from './UserRatingContainer';
+import ApiUrl from '../../util/ApiUrl';
 
 interface AudioClipState {
     error: any,
     isLoaded: boolean,
+    audioClips: AudioClip[],
     audioURL: string
+}
+
+class AudioClip {
+    name: string;
+    public_url: string;
+
+    constructor(json: any) {
+        this.name = json["name"];
+        this.public_url = json["public_url"];
+    }
 }
 
 class AudioClipContainer extends React.Component<{}, AudioClipState> {
@@ -15,32 +28,52 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         this.state = {
             error: null,
             isLoaded: false,
-            audioURL: ""
+            audioURL: "",
+            audioClips: []
         };
     }
 
-    componentDidMount() {
-        fetch("http://localhost:8080/api/v1/audio_queue")
-        .then(res => res.json())
-        .then(
-            (result) => {
-                this.setState({
-                    isLoaded: true,
-                    audioURL: result.audioURL
-                })
-            },
-            (error) => {
-                console.log(error);
-                this.setState({
-                    isLoaded: false,
-                    error
-                })
+    getAudioClips = async () => {
+        const apiUrl : String = ApiUrl();
+        try {
+            const res : AxiosResponse = await axios.get(`${apiUrl}/api/v1/audio_files`);
+            console.log(res.data);
+
+            let audioClips: AudioClip[] = [];
+            let arr = res.data["audio_files"];
+
+            for (let i = 0; i < arr.length; i++) {
+                let c : AudioClip = new AudioClip(arr[i]);
+                audioClips.push(c);
             }
-        )
+            
+            this.setState({
+                isLoaded: true,
+                audioClips: audioClips
+            })
+        } catch (error) {
+            console.log(error);
+            this.setState({
+                isLoaded: false,
+                error
+            });
+        }
+    }
+
+    mapAudioClips = (audioClips: AudioClip[]) => {
+        let optionItems = audioClips.map((a : AudioClip) => {
+            return <option key={a.name} value={a.public_url}>{a.name}</option>
+        });
+        return optionItems;
+    }
+
+    componentDidMount() {
+        this.getAudioClips();
     }
 
     render() {
-        const {error, isLoaded, audioURL} = this.state;
+        const {error, isLoaded, audioURL, audioClips} = this.state;
+        console.log(audioClips);
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -51,6 +84,9 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 <AudioClipProgressHeader></AudioClipProgressHeader>
                 <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">HomeBank Audio Classification</div>
+                <select>
+                    {this.mapAudioClips(audioClips)}
+                </select>
                 <p className="text-gray-700 text-base">
                 Listen carefully because you will only get one opportunity to listen.
                 You will be asked about the prominence within the clip of the voice 

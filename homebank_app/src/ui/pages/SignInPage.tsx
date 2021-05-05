@@ -3,21 +3,6 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import GoogleLogin from 'react-google-login';
 
-axios.interceptors.request.use(
-    config => {
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('user_id');
-      if (token) {
-        config.headers.authorization = `${token}`;
-        config.headers.userId = `${userId}`;
-      }
-      return config;
-    },
-    error => {
-      return Promise.reject(error);
-    }
-  );
-
 const apiUrl = "http://localhost:8080";
 
 class UserData {

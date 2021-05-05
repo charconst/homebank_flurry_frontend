@@ -3,6 +3,7 @@ import './App.css';
 import 'tailwindcss/dist/tailwind.css'
 import AppHeader from './ui/components/AppHeader'
 import Helmet from 'react-helmet';
+import axios from 'axios';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Home from "../src/ui/pages/Home";
 import SignInPage from "../src/ui/pages/SignInPage";
@@ -27,6 +28,22 @@ class RouteWithTitle extends React.Component<RouteWithTitleProps> {
         )
     }
 }
+
+axios.interceptors.request.use(
+  config => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('user_id');
+    console.log(token, userId);
+    if (token) {
+      config.headers.authorization = `${token}`;
+      config.headers.userId = `${userId}`;
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
 
 const Main = () => {
     return (
