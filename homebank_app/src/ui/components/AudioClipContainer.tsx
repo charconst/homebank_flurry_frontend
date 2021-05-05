@@ -9,16 +9,19 @@ interface AudioClipState {
     error: any,
     isLoaded: boolean,
     audioClips: AudioClip[],
+    selectedAudioClip?: AudioClip
     audioURL: string
 }
 
 class AudioClip {
-    name: string;
-    public_url: string;
+    name: string = "";
+    public_url: string = "";
 
     constructor(json: any) {
-        this.name = json["name"];
-        this.public_url = json["public_url"];
+        if (json["name"])
+            this.name = json["name"];
+        if (json["public_url"])
+            this.public_url = json["public_url"];
     }
 }
 
@@ -29,6 +32,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
             error: null,
             isLoaded: false,
             audioURL: "",
+            selectedAudioClip: undefined,
             audioClips: []
         };
     }
@@ -67,12 +71,25 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         return optionItems;
     }
 
+    handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        if (event.currentTarget.value) {
+            let index = event.currentTarget.selectedIndex;
+            let audioClip = new AudioClip({});
+            const a = this.state.audioClips;
+            audioClip.name = a[index].name;
+            audioClip.public_url = a[index].public_url;
+            this.setState( {
+                selectedAudioClip: audioClip
+            });
+        }
+    }
+
     componentDidMount() {
         this.getAudioClips();
     }
 
     render() {
-        const {error, isLoaded, audioURL, audioClips} = this.state;
+        const {error, isLoaded, audioURL, audioClips, selectedAudioClip} = this.state;
         console.log(audioClips);
         if (error) {
             return <div>Error: {error.message}</div>;
@@ -84,7 +101,9 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 <AudioClipProgressHeader></AudioClipProgressHeader>
                 <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">HomeBank Audio Classification</div>
-                <select>
+                <h1><b>Currently Selected Clip: {selectedAudioClip?.name}</b></h1>
+                <p>{selectedAudioClip?.public_url}</p>
+                <select onChange={this.handleOnChange}>
                     {this.mapAudioClips(audioClips)}
                 </select>
                 <p className="text-gray-700 text-base">
