@@ -3,7 +3,7 @@ import ReactAudioPlayer from 'react-audio-player';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import AudioClipProgressHeader from '../components/AudioClipProgressHeader';
 import UserRatingContainer from './UserRatingContainer';
-import ApiUrl from '../../util/ApiUrl';
+import Url from '../../util/ApiUrl';
 
 interface AudioClipState {
     error: any,
@@ -25,7 +25,22 @@ class AudioClip {
     }
 }
 
+class NextAudioSegmentResponse {
+    id: string = "";
+    next_segment_timestamp: number = 0;
+
+    constructor(res: AxiosResponse) {
+        let data = res.data;
+        if (data["id"])
+            this.id = data["id"];
+        if (data["next_segment_timestamp"])
+            this.next_segment_timestamp = data["next_segment_timestamp"];
+    }
+}
+
 class AudioClipContainer extends React.Component<{}, AudioClipState> {
+    private audioPlayer: React.RefObject<ReactAudioPlayer>;
+
     constructor(props:any) {
         super(props);
         this.state = {
@@ -35,10 +50,42 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
             selectedAudioClip: undefined,
             audioClips: []
         };
+        this.audioPlayer = React.createRef();
+    }
+
+    removeFolderPrefix = (fileName: string): string => {
+        return fileName.replace("audio/", "");
+    }
+
+    setAudioCurrentTime(timeInSeconds: number):void {
+        if (this.audioPlayer.current && this.audioPlayer.current.audioEl.current) {
+            let audioElement: HTMLAudioElement = this.audioPlayer.current.audioEl.current;
+            audioElement.currentTime = timeInSeconds;
+        }
+    }
+
+    getNextAudioSegment = async () => {
+        const apiUrl : String = Url.getAPIUrl();
+        try {
+            let id : string | undefined = this.state.selectedAudioClip?.name;
+            if (id) {
+                id = this.removeFolderPrefix(id);
+                id = id.replace(".wav", "");
+                const res : AxiosResponse = await axios.get(`${apiUrl}/api/v1/audio_segments/${id}`);
+                const segmentRes : NextAudioSegmentResponse = new NextAudioSegmentResponse(res);
+                this.setAudioCurrentTime(segmentRes.next_segment_timestamp);
+            }
+        } catch (error) {
+            console.log(error);
+            this.setState({
+                isLoaded: false,
+                error
+            });
+        } 
     }
 
     getAudioClips = async () => {
-        const apiUrl : String = ApiUrl();
+        const apiUrl : String = Url.getAPIUrl();
         try {
             const res : AxiosResponse = await axios.get(`${apiUrl}/api/v1/audio_files`);
             console.log(res.data);
@@ -65,19 +112,29 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
     }
 
     mapAudioClips = (audioClips: AudioClip[]) => {
-        let optionItems = audioClips.map((a : AudioClip) => {
+        let optionItems : JSX.Element[] = audioClips.map((a : AudioClip) => {
             return <option key={a.name} value={a.public_url}>{a.name}</option>
         });
+        optionItems.unshift(<option key="no_value" value="none">None</option>);
         return optionItems;
     }
 
     handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (event.currentTarget.value) {
-            let index = event.currentTarget.selectedIndex;
+            let index = event.currentTarget.selectedIndex - 1;
+            if (index < 0) {
+                this.setState({
+                    selectedAudioClip: undefined
+                })
+                return;
+            }
+                
             let audioClip = new AudioClip({});
             const a = this.state.audioClips;
             audioClip.name = a[index].name;
             audioClip.public_url = a[index].public_url;
+            console.log(index);
+            console.log(audioClip);
             this.setState( {
                 selectedAudioClip: audioClip
             });
@@ -88,7 +145,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         this.getAudioClips();
     }
 
-    render() {
+    render()  {
         const {error, isLoaded, audioURL, audioClips, selectedAudioClip} = this.state;
         console.log(audioClips);
         if (error) {
@@ -117,13 +174,13 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 Note that the target child in this case is +ageYYMMDD[0:2]+ year(s), +ageYYMMDD[2:4]+ month(s), 
                 and +ageYYMMDD[4:6]+ day(s) old.
                 </p>
-                <ReactAudioPlayer controls className="container mx-auto m-8"src={selectedAudioClip?.public_url}></ReactAudioPlayer>
+                <ReactAudioPlayer ref={this.audioPlayer} controls className="container mx-auto m-8"src={selectedAudioClip?.public_url}></ReactAudioPlayer>
                 <div className="flex h-16 flex-wrap justify-center">
                 <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded flex-initial m-2">
                         Previous Clip
                     </button>
                     <UserRatingContainer></UserRatingContainer>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded flex-initial m-2">
+                    <button onClick={this.getNextAudioSegment} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded flex-initial m-2">
                         Next Clip
                     </button>
                 </div>

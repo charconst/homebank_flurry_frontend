@@ -3,5 +3,5 @@ const getAPIUrl = () : string => {
     return 'http://localhost:8080';
 };
 
-export default getAPIUrl;
+export default {getAPIUrl};
 
