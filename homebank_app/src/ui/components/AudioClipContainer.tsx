@@ -71,7 +71,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
             if (id) {
                 id = this.removeFolderPrefix(id);
                 id = id.replace(".wav", "");
-                const res : AxiosResponse = await axios.get(`${apiUrl}/api/v1/audio_segments/${id}`);
+                const res : AxiosResponse = await axios.post(`${apiUrl}/api/v1/audio_segments/${id}`);
                 const segmentRes : NextAudioSegmentResponse = new NextAudioSegmentResponse(res);
                 this.setAudioCurrentTime(segmentRes.next_segment_timestamp);
             }
