@@ -10,7 +10,8 @@ interface AudioClipState {
     isLoaded: boolean,
     audioClips: AudioClip[],
     selectedAudioClip?: AudioClip
-    audioURL: string
+    audioURL: string,
+    end_timestamp: number
 }
 
 class AudioClip {
@@ -27,15 +28,18 @@ class AudioClip {
 
 class NextAudioSegmentResponse {
     id: string = "";
-    next_segment_timestamp: number = 0;
+    next_segment_start_timestamp: number = 0;
+    next_segment_end_timestamp:number = 0;
     total_clips: number = 0;
 
     constructor(res: AxiosResponse) {
         let data = res.data;
         if (data["id"])
             this.id = data["id"];
-        if (data["next_segment_timestamp"])
-            this.next_segment_timestamp = data["next_segment_timestamp"];
+        if (data["next_segment_start_timestamp"])
+            this.next_segment_start_timestamp = data["next_segment_start_timestamp"];
+        if (data["next_segment_end_timestamp"])
+            this.next_segment_end_timestamp = data["next_segment_end_timestamp"];
         if (data["total_clips"])
             this.total_clips = data["total_clips"];
     }
@@ -72,6 +76,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
             isLoaded: false,
             audioURL: "",
             selectedAudioClip: undefined,
+            end_timestamp: 0,
             audioClips: []
         };
         this.audioPlayer = React.createRef();
@@ -85,6 +90,12 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         if (this.audioPlayer.current && this.audioPlayer.current.audioEl.current) {
             let audioElement: HTMLAudioElement = this.audioPlayer.current.audioEl.current;
             audioElement.currentTime = timeInSeconds;
+            audioElement.play();
+            audioElement.ontimeupdate = null;
+            audioElement.ontimeupdate = (ev: Event) => {
+                if (audioElement.currentTime >= this.state.end_timestamp)
+                    audioElement.pause();
+            }
         }
     }
 
@@ -125,7 +136,11 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 id = id.replace(".wav", "");
                 const res : AxiosResponse = await axios.post(`${apiUrl}/api/v1/audio_segments/${id}`);
                 const segmentRes : NextAudioSegmentResponse = new NextAudioSegmentResponse(res);
-                this.setAudioCurrentTime(segmentRes.next_segment_timestamp);
+                this.setState({
+                    end_timestamp: segmentRes.next_segment_end_timestamp
+                }, () => {
+                    this.setAudioCurrentTime(segmentRes.next_segment_start_timestamp);
+                });
             }
         } catch (error) {
             console.log(error);
