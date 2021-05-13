@@ -1,4 +1,6 @@
 import React from 'react';
+import Url from '../../util/ApiUrl';
+import axios, { AxiosResponse } from 'axios';
 
 interface UserRatingKeyboardKeyProps {
     title: string,
@@ -11,17 +13,14 @@ class UserRatingKeyboardKey extends React.Component<UserRatingKeyboardKeyProps> 
     
     postUserRating = async () => {
         let title = this.props.title;
-        const response = await fetch('http://localhost:8080/api/v1/audio_rating/', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+        const apiUrl : String = Url.getAPIUrl();
+        const clip_id : String = "0003_000281";
+        let data = {
             rating: title,
-        })
-        });
-        console.log(response);
+            timestamp_start: 32.1
+        }
+        let res : AxiosResponse = await axios.post(`${apiUrl}/api/v1/audio_rating/${clip_id}`, data);
+        
     }
     
     render() {
