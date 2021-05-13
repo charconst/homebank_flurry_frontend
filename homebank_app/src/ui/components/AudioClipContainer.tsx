@@ -4,6 +4,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import AudioClipProgressHeader from '../components/AudioClipProgressHeader';
 import UserRatingContainer from './UserRatingContainer';
 import Url from '../../util/ApiUrl';
+import AppState from '../../util/AppState';
 
 interface AudioClipState {
     error: any,
@@ -116,6 +117,8 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 this.setAudioCurrentTime(segmentRes.current_clip_timestamp);
                 this.setState({
 
+                }, () => {
+                    AppState.AppState.gSelectedAudioFileTimestampStart = segmentRes.current_clip_timestamp;
                 });
             }
         } catch (error) {
@@ -139,6 +142,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 this.setState({
                     end_timestamp: segmentRes.next_segment_end_timestamp
                 }, () => {
+                    AppState.AppState.gSelectedAudioFileTimestampStart = segmentRes.next_segment_start_timestamp;
                     this.setAudioCurrentTime(segmentRes.next_segment_start_timestamp);
                 });
             }
@@ -192,6 +196,8 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
             if (index < 0) {
                 this.setState({
                     selectedAudioClip: undefined
+                }, () => {
+                    AppState.AppState.gSelectedAudioFileId = "";
                 })
                 return;
             }
@@ -205,6 +211,9 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
             this.setState( {
                 selectedAudioClip: audioClip
             }, () => {
+                let cleanFileName: string = audioClip.name.replace(".wav", "");
+                cleanFileName = cleanFileName.replace("audio/", "");
+                AppState.AppState.gSelectedAudioFileId = cleanFileName;
                 this.getSelectedAudioFileState();
             });
         }
