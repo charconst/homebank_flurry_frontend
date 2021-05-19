@@ -2,8 +2,9 @@ import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import GoogleLogin from 'react-google-login';
+import ApiUrl from '../../util/ApiUrl';
 
-const apiUrl = "http://localhost:8080";
+const apiUrl = ApiUrl.getAPIUrl();
 
 class UserData {
     creation_timestamp ?: string;
@@ -44,7 +45,7 @@ function SignInPage () {
             setJwt(accessToken);
             setId(userId);
             setFetchError(null);
-            console.log(data); 
+            console.log("api/v1/auth/google", data); 
         } catch (err) {
             setFetchError(err.message);
         }
@@ -64,11 +65,12 @@ function SignInPage () {
             const { data } = await axios.get(`${apiUrl}/api/v1/auth/me`);
             const userData : UserData = new UserData(data);
             setUser(userData);
-            console.log(data);
+            console.log("Results of /api/v1/auth/me", data);
             setFetchError(null);
         } catch (err) {
             setUser(undefined);
             setFetchError(err.message);
+            console.log(err);
         }
     }
 

@@ -22,7 +22,7 @@ class UserRatingKeyboardKey extends React.Component<UserRatingKeyboardKeyProps> 
             timestamp_start: AppState.AppState.gSelectedAudioFileTimestampStart
         }
         let res : AxiosResponse = await axios.post(`${apiUrl}/api/v1/audio_rating/${clip_id}`, data);
-        
+        console.log("/api/v1/audio_rating response", res.data);
     }
     
     render() {
