@@ -241,17 +241,25 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 <select onChange={this.handleOnChange}>
                     {this.mapAudioClips(audioClips)}
                 </select>
-                <p className="text-gray-700 text-base">
-                Listen carefully because you will only get one opportunity to listen.
-                You will be asked about the prominence within the clip of the voice 
+                <p className="text-gray-700 text-base py-8">
+                <i>You will be asked about the prominence within the clip of the voice 
                 of the child wearing the recorder (i.e. the target child) compared to 
                 all other sounds, such as other voices, background noise, rustling, etc.
                 A target child vocalization may include speech, singing, babble, crying,
                 trilling the lips, coughing, grunting, or any other sound produced
                 using the throat, lips, and/or tongue.
                 Note that the target child in this case is +ageYYMMDD[0:2]+ year(s), +ageYYMMDD[2:4]+ month(s), 
-                and +ageYYMMDD[4:6]+ day(s) old.
-                </p>
+                and +ageYYMMDD[4:6]+ day(s) old.</i></p>
+                <p className="py-2">Click 1 if you heard only the target child's voice.</p>
+                <p className="py-2">Click 2 if you heard some background noise or other sound(s) but the infant vocalization is clearly the dominant sound in the clip.
+</p>
+                <p className="py-2">Click 3 if you heard some background noise or other sound(s) and 
+                the target child vocalization and the other sound(s) are similar in
+                how dominant they are within the clip.</p>
+                <p className="py-2">Click 4 if you heard a target child vocalization but it was definitely 
+                not the dominant sound in the clip.</p>
+                <p className="py-2">Click 5 if there did not appear to be a target child vocalization
+                within the clip.</p>
                 <ReactAudioPlayer ref={this.audioPlayer} controls className="container mx-auto m-8"src={selectedAudioClip?.public_url}></ReactAudioPlayer>
                 <div className="flex h-16 flex-wrap justify-center">
                 <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded flex-initial m-2">
