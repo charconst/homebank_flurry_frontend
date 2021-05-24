@@ -190,6 +190,17 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         return optionItems;
     }
 
+    getChildDOB = (audioFilename: string):string => {
+        let dob = "";
+        // 0054_000603_scrubbed
+        let split: string[] = audioFilename.split("_");
+        if (split.length >= 2) {
+            let yymmdd = split[1];
+            return yymmdd;
+        }
+        return dob;
+    }
+
     handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         if (event.currentTarget.value) {
             let index = event.currentTarget.selectedIndex - 1;
@@ -214,6 +225,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 let cleanFileName: string = audioClip.name.replace(".wav", "");
                 cleanFileName = cleanFileName.replace("audio/", "");
                 AppState.AppState.gSelectedAudioFileId = cleanFileName;
+                console.log("Clean File Name: ", cleanFileName);
                 this.getSelectedAudioFileState();
             });
         }
@@ -225,6 +237,10 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
 
     render()  {
         const {error, isLoaded, audioURL, audioClips, selectedAudioClip} = this.state;
+        let ageYYMMDD: string = "";
+        if (selectedAudioClip) {
+            ageYYMMDD = this.getChildDOB(selectedAudioClip.name);
+        } 
         console.log(audioClips);
         if (error) {
             return <div>Error: {error.message}</div>;
@@ -248,8 +264,9 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 A target child vocalization may include speech, singing, babble, crying,
                 trilling the lips, coughing, grunting, or any other sound produced
                 using the throat, lips, and/or tongue.
-                Note that the target child in this case is +ageYYMMDD[0:2]+ year(s), +ageYYMMDD[2:4]+ month(s), 
-                and +ageYYMMDD[4:6]+ day(s) old.</i></p>
+                Note that the target child in this case is {ageYYMMDD.slice(0, 2) + " years(s), "} 
+                {ageYYMMDD.slice(2, 4) + " months(s), "} 
+                {ageYYMMDD.slice(4, 6) + " days(s). "}</i></p>
                 <p className="py-2">Click 1 if you heard only the target child's voice.</p>
                 <p className="py-2">Click 2 if you heard some background noise or other sound(s) but the infant vocalization is clearly the dominant sound in the clip.
 </p>
