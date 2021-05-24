@@ -236,7 +236,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 <AudioClipProgressHeader></AudioClipProgressHeader>
                 <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">HomeBank Audio Classification</div>
-                <h1><b>Currently Selected Clip: {selectedAudioClip?.name}</b></h1>
+                <h1><b>Selected Recording {selectedAudioClip?.name}</b></h1>
                 <p>{selectedAudioClip?.public_url}</p>
                 <select onChange={this.handleOnChange}>
                     {this.mapAudioClips(audioClips)}
