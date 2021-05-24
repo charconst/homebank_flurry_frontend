@@ -48,7 +48,7 @@ axios.interceptors.request.use(
 const Main = () => {
     return (
             <Switch>
-                <RouteWithTitle exact title='HomeBank' path='/' component={Home}></RouteWithTitle>
+                <RouteWithTitle exact title='HomeBank - Flurry' path='/' component={Home}></RouteWithTitle>
                 <Route exact path="/signin" component={SignInPage}></Route>
             </Switch>        
     );
