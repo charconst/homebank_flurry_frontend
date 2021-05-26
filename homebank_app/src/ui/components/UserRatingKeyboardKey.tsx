@@ -2,9 +2,11 @@ import React from 'react';
 import Url from '../../util/ApiUrl';
 import axios, { AxiosResponse } from 'axios';
 import AppState from '../../util/AppState';
+import AudioClipContainer from './AudioClipContainer';
 
 interface UserRatingKeyboardKeyProps {
     title: string,
+    audioContainer: AudioClipContainer
 }
 
 class UserRatingKeyboardKey extends React.Component<UserRatingKeyboardKeyProps> {
@@ -22,6 +24,10 @@ class UserRatingKeyboardKey extends React.Component<UserRatingKeyboardKeyProps> 
             timestamp_start: AppState.AppState.gSelectedAudioFileTimestampStart
         }
         let res : AxiosResponse = await axios.post(`${apiUrl}/api/v1/audio_rating/${clip_id}`, data);
+        if (res.status == 200) {
+            AppState.AppState.gUserHasRatedCurrentClip = true;
+            this.props.audioContainer.forceUpdate();
+        }
         console.log("/api/v1/audio_rating response", res.data);
     }
     

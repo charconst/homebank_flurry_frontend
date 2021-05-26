@@ -1,15 +1,20 @@
 import React from 'react';
+import AudioClipContainer from './AudioClipContainer';
 import UserRatingKeyboardKey from './UserRatingKeyboardKey';
 
-class UserRatingContainer extends React.Component {
+interface UserRatingContainerProps {
+    audioContainer: AudioClipContainer
+}
+
+class UserRatingContainer extends React.Component<UserRatingContainerProps> {
     render() {
         return (
             <div className="flex">
-                <UserRatingKeyboardKey title="1"></UserRatingKeyboardKey>
-                <UserRatingKeyboardKey title="2"></UserRatingKeyboardKey>
-                <UserRatingKeyboardKey title="3"></UserRatingKeyboardKey>
-                <UserRatingKeyboardKey title="4"></UserRatingKeyboardKey>
-                <UserRatingKeyboardKey title="5"></UserRatingKeyboardKey>
+                <UserRatingKeyboardKey audioContainer={this.props.audioContainer} title="1"></UserRatingKeyboardKey>
+                <UserRatingKeyboardKey audioContainer={this.props.audioContainer} title="2"></UserRatingKeyboardKey>
+                <UserRatingKeyboardKey audioContainer={this.props.audioContainer} title="3"></UserRatingKeyboardKey>
+                <UserRatingKeyboardKey audioContainer={this.props.audioContainer} title="4"></UserRatingKeyboardKey>
+                <UserRatingKeyboardKey audioContainer={this.props.audioContainer} title="5"></UserRatingKeyboardKey>
             </div>
         )
     }

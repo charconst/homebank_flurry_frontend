@@ -83,6 +83,12 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         this.audioPlayer = React.createRef();
     }
 
+    forceUpdate = ():void => {
+        this.setState({
+
+        });
+    }
+
     removeFolderPrefix = (fileName: string): string => {
         return fileName.replace("audio/", "");
     }
@@ -139,6 +145,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 id = id.replace(".wav", "");
                 const res : AxiosResponse = await axios.post(`${apiUrl}/api/v1/audio_segments/${id}`);
                 const segmentRes : NextAudioSegmentResponse = new NextAudioSegmentResponse(res);
+                AppState.AppState.gUserHasRatedCurrentClip = false;
                 this.setState({
                     end_timestamp: segmentRes.next_segment_end_timestamp
                 }, () => {
@@ -241,6 +248,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         if (selectedAudioClip) {
             ageYYMMDD = this.getChildDOB(selectedAudioClip.name);
         } 
+        let userHasRatedClip: boolean = AppState.AppState.gUserHasRatedCurrentClip;
         console.log(audioClips);
         if (error) {
             return <div>Error: {error.message}</div>;
@@ -282,10 +290,18 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded flex-initial m-2">
                         Previous Clip
                     </button>
-                    <UserRatingContainer></UserRatingContainer>
-                    <button onClick={this.getNextAudioSegment} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded flex-initial m-2">
+                    <UserRatingContainer audioContainer={this}></UserRatingContainer>
+                    {!userHasRatedClip && (
+                        <button disabled className="bg-blue-500 opacity-30 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded flex-initial m-2 disabled:opacity-50">
+                        Next Clip
+                      </button>
+                    )}
+                    {userHasRatedClip && (
+                        <button onClick={this.getNextAudioSegment} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded flex-initial m-2">
                         Next Clip
                     </button>
+                    )
+                    }
                 </div>
                 
             </div>
