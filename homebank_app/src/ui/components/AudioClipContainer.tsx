@@ -52,6 +52,7 @@ class GetAudioSegmentResponse {
     total_clips: number = 0;
     current_clip_number: number = 0;
     current_clip_timestamp: number = 0;
+    current_clip_end_timestamp:number = 0;
     constructor(res: AxiosResponse) {
         let data = res.data;
         if (data["id"])
@@ -64,6 +65,8 @@ class GetAudioSegmentResponse {
             this.current_clip_number = data["current_clip_number"];
         if (data["current_clip_timestamp"])
             this.current_clip_timestamp = data["current_clip_timestamp"];
+        if (data["current_clip_end_timestamp"])
+            this.current_clip_end_timestamp = data["current_clip_end_timestamp"];
     }
 }
 
@@ -97,12 +100,12 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         if (this.audioPlayer.current && this.audioPlayer.current.audioEl.current) {
             let audioElement: HTMLAudioElement = this.audioPlayer.current.audioEl.current;
             audioElement.currentTime = timeInSeconds;
-            audioElement.play();
             audioElement.ontimeupdate = null;
             audioElement.ontimeupdate = (ev: Event) => {
                 if (audioElement.currentTime >= this.state.end_timestamp)
                     audioElement.pause();
             }
+            audioElement.play();
         }
     }
 
@@ -122,7 +125,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 const segmentRes : GetAudioSegmentResponse = new GetAudioSegmentResponse(res);
                 this.setAudioCurrentTime(segmentRes.current_clip_timestamp);
                 this.setState({
-
+                    end_timestamp: segmentRes.current_clip_end_timestamp,
                 }, () => {
                     AppState.AppState.gSelectedAudioFileTimestampStart = segmentRes.current_clip_timestamp;
                 });
@@ -238,6 +241,11 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         }
     }
 
+    replayClip = () => {
+        let currentTimestamp: number = AppState.AppState.gSelectedAudioFileTimestampStart;
+        this.setAudioCurrentTime(currentTimestamp);
+    }
+
     componentDidMount() {
         this.getAudioClips();
     }
@@ -287,8 +295,8 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 within the clip.</p>
                 <ReactAudioPlayer ref={this.audioPlayer} controls className="container mx-auto m-8"src={selectedAudioClip?.public_url}></ReactAudioPlayer>
                 <div className="flex h-16 flex-wrap justify-center">
-                <button className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded flex-initial m-2">
-                        Previous Clip
+                <button onClick={this.replayClip} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded flex-initial m-2">
+                        Replay Clip
                     </button>
                     <UserRatingContainer audioContainer={this}></UserRatingContainer>
                     {!userHasRatedClip && (

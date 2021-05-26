@@ -1,6 +1,6 @@
 const getAPIUrl = () : string => {
-    // TODO check if we're in prod or local
-    return 'https://white-hub-307318.wm.r.appspot.com';
+    let useDebugURL = false;
+    return (useDebugURL) ? 'http://localhost:8080' : 'https://white-hub-307318.wm.r.appspot.com';
 };
 
 export default {getAPIUrl};
