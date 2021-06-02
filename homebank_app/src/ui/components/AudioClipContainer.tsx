@@ -13,6 +13,8 @@ interface AudioClipState {
     selectedAudioClip?: AudioClip
     audioURL: string,
     end_timestamp: number
+    selectedRecordingTotalClips: number,
+    selectedRecordingCurrentClip: number
 }
 
 class AudioClip {
@@ -60,7 +62,7 @@ class GetAudioSegmentResponse {
         if (data["name"])
             this.name = data["name"];
         if (data["total_clips"])
-            this.name = data["total_clips"];
+            this.total_clips = data["total_clips"];
         if (data["current_clip_number"])
             this.current_clip_number = data["current_clip_number"];
         if (data["current_clip_timestamp"])
@@ -81,7 +83,9 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
             audioURL: "",
             selectedAudioClip: undefined,
             end_timestamp: 0,
-            audioClips: []
+            audioClips: [],
+            selectedRecordingTotalClips: 0,
+            selectedRecordingCurrentClip: 0,
         };
         this.audioPlayer = React.createRef();
     }
@@ -123,9 +127,12 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 id = this.formatSelectedAudioClipName(id);
                 const res : AxiosResponse = await axios.get(`${apiUrl}/api/v1/audio_segments/${id}`);
                 const segmentRes : GetAudioSegmentResponse = new GetAudioSegmentResponse(res);
+
                 this.setAudioCurrentTime(segmentRes.current_clip_timestamp);
                 this.setState({
                     end_timestamp: segmentRes.current_clip_end_timestamp,
+                    selectedRecordingCurrentClip: segmentRes.current_clip_number,
+                    selectedRecordingTotalClips: segmentRes.total_clips
                 }, () => {
                     AppState.AppState.gSelectedAudioFileTimestampStart = segmentRes.current_clip_timestamp;
                 });
@@ -251,7 +258,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
     }
 
     render()  {
-        const {error, isLoaded, audioURL, audioClips, selectedAudioClip} = this.state;
+        const {error, isLoaded, audioURL, audioClips, selectedAudioClip, selectedRecordingCurrentClip, selectedRecordingTotalClips} = this.state;
         let ageYYMMDD: string = "";
         if (selectedAudioClip) {
             ageYYMMDD = this.getChildDOB(selectedAudioClip.name);
@@ -265,7 +272,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         } 
         return (
             <div className="rounded overflow-hidden shadow-lg text-center">
-                <AudioClipProgressHeader></AudioClipProgressHeader>
+                <AudioClipProgressHeader currentClip={selectedRecordingCurrentClip} totalClips={selectedRecordingTotalClips}></AudioClipProgressHeader>
                 <div className="px-6 py-4">
                 <div className="font-bold text-xl mb-2">HomeBank Audio Classification</div>
                 <h1><b>Selected Recording {selectedAudioClip?.name}</b></h1>
