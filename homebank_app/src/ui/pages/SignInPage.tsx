@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import GoogleLogin from 'react-google-login';
@@ -32,6 +32,10 @@ function SignInPage () {
     const [id, setId] = useState(storedId || null);
     const [user, setUser] = useState<UserData>();
     const [fetchError, setFetchError] = useState(null);
+
+    useEffect(() => {
+        getUserData();
+    });
 
     const responseGoogle = async (googleResponse:any) => {
         console.log(googleResponse);
@@ -73,26 +77,25 @@ function SignInPage () {
             console.log(err);
         }
     }
-
     return (
         <div>
-            <h1>/signin</h1>
-            <GoogleLogin clientId="100265972375-l3fol743purv7qajo9en61in8815ukl2.apps.googleusercontent.com" 
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            buttonText="Sign In with Google"
-            cookiePolicy={'single_host_origin'}
-            />
-            <div className="m-4">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-2" onClick={getUserData}>My Profile</button>
+            {!user && (
+                <GoogleLogin clientId="100265972375-l3fol743purv7qajo9en61in8815ukl2.apps.googleusercontent.com" 
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                buttonText="Sign In with Google"
+                cookiePolicy={'single_host_origin'}
+                />
+            )}
+            {user && (
                 <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full m-2" onClick={signOut}>Sign Out</button>
-            </div>
+            )}
             
             {fetchError && (
                 <p style={{color: 'red'}}>{fetchError}</p>
             )}
-            {id && (
-                <p className="text-xl m-4">Logged in as: <b>[{id}]</b></p>
+            {user && (
+                <p className="text-xl m-4">Logged in as: <b>[{user.id}]</b></p>
             )}
             {user && (
                 <div className="">
