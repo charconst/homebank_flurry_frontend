@@ -287,9 +287,9 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 A target child vocalization may include speech, singing, babble, crying,
                 trilling the lips, coughing, grunting, or any other sound produced
                 using the throat, lips, and/or tongue.
-                Note that the target child in this case is {ageYYMMDD.slice(0, 2) + " years(s), "} 
-                {ageYYMMDD.slice(2, 4) + " months(s), "} 
-                {ageYYMMDD.slice(4, 6) + " days(s). "}</i></p>
+                Note that the target child in this case is {ageYYMMDD.slice(0, 2) + " years, "} 
+                {ageYYMMDD.slice(2, 4) + " months, "} 
+                {ageYYMMDD.slice(4, 6) + " days. "}</i></p>
                 <p className="py-2">Click 1 if you heard only the target child's voice.</p>
                 <p className="py-2">Click 2 if you heard some background noise or other sound(s) but the infant vocalization is clearly the dominant sound in the clip.
 </p>
