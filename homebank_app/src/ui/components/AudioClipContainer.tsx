@@ -276,7 +276,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
             return <div>Loading...</div>;
         } 
         return (
-            <div className="rounded overflow-hidden shadow-lg text-center">
+            <div className="rounded overflow-hidden shadow-lg">
                 <AudioClipProgressHeader currentClip={selectedRecordingCurrentClip} totalClips={selectedRecordingTotalClips}></AudioClipProgressHeader>
                 <div className="px-6 py-4">
                 <div className="font-light text-md mb-2">HomeBank Flurry | Audio Classification Tool</div>
@@ -284,26 +284,30 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 <select onChange={this.handleOnChange}>
                     {this.mapAudioClips(audioClips)}
                 </select>
-                <p className="text-gray-700 text-base py-8">
-                <i>You will be asked about the prominence within the clip of the voice 
-                of the child wearing the recorder (i.e. the target child) compared to 
-                all other sounds, such as other voices, background noise, rustling, etc.
-                A target child vocalization may include speech, singing, babble, crying,
-                trilling the lips, coughing, grunting, or any other sound produced
-                using the throat, lips, and/or tongue.
-                Note that the target child in this case is {ageYYMMDD.slice(0, 2) + " years, "} 
-                {ageYYMMDD.slice(2, 4) + " months, "} 
-                {ageYYMMDD.slice(4, 6) + " days. "}</i></p>
-                <p className="py-2">Click 1 if you heard only the target child's voice.</p>
-                <p className="py-2">Click 2 if you heard some background noise or other sound(s) but the infant vocalization is clearly the dominant sound in the clip.
+                <div className="bg-green-500 mx-auto justify-items-center px-8 mt-4">
+                    <div className="text-gray-700 font-light text-center py-8 text-lg break-words">
+                    <i>You will be asked about the prominence within the clip of the voice 
+                    of the child wearing the recorder (i.e. the target child) compared to 
+                    all other sounds, such as other voices, background noise, rustling, etc.
+                    A target child vocalization may include speech, singing, babble, crying,
+                    trilling the lips, coughing, grunting, or any other sound produced
+                    using the throat, lips, and/or tongue.
+                    Note that the target child in this case is {ageYYMMDD.slice(0, 2) + " years, "} 
+                    {ageYYMMDD.slice(2, 4) + " months, "} 
+                    {ageYYMMDD.slice(4, 6) + " days. "}</i></div>
+                </div>
+                <div className="bg-gray-300 text-2xl font-light py-4 px-32">
+                <p className="py-4"><b>Click 1</b> if you heard only the target child's voice.</p>
+                <p className="py-4"><b>Click 2</b> if you heard some background noise or other sound(s) but the infant vocalization is clearly the dominant sound in the clip.
 </p>
-                <p className="py-2">Click 3 if you heard some background noise or other sound(s) and 
+                <p className="py-4"><b>Click 3</b> if you heard some background noise or other sound(s) and 
                 the target child vocalization and the other sound(s) are similar in
                 how dominant they are within the clip.</p>
-                <p className="py-2">Click 4 if you heard a target child vocalization but it was definitely 
+                <p className="py-4"><b>Click 4</b> if you heard a target child vocalization but it was definitely 
                 not the dominant sound in the clip.</p>
-                <p className="py-2">Click 5 if there did not appear to be a target child vocalization
+                <p className="py-4"><b>Click 5</b> if there did not appear to be a target child vocalization
                 within the clip.</p>
+                </div>
                 <ReactAudioPlayer ref={this.audioPlayer} controls className="container mx-auto m-8"src={selectedAudioClip?.public_url}></ReactAudioPlayer>
                 <div className="flex h-16 flex-wrap justify-center">
                 <button onClick={this.replayClip} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded flex-initial m-2">
