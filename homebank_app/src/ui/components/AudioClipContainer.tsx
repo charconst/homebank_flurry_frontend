@@ -4,7 +4,38 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import AudioClipProgressHeader from '../components/AudioClipProgressHeader';
 import UserRatingContainer from './UserRatingContainer';
 import Url from '../../util/ApiUrl';
-import AppState from '../../util/AppState';
+import {AppState, charCountState, textState} from '../../util/AppState';
+import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
+
+function CharacterCount() {
+    const count = useRecoilValue(charCountState);
+    return <>Character Count: {count}</>;
+}
+
+function CharacterCounter() {
+    return (
+      <div>
+        <TextInput />
+        <CharacterCount />
+      </div>
+    );
+  }
+
+function TextInput() {
+    const [text, setText] = useRecoilState(textState);
+
+    const onChange = (event:any) => {
+        setText(event.target.value);
+    };
+
+    return (
+        <div>
+        <input type="text" value={text} onChange={onChange} />
+        <br />
+        Echo: {text}
+        </div>
+    );
+}
 
 interface AudioClipState {
     error: any,
@@ -137,7 +168,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                     selectedRecordingCurrentClip: segmentRes.current_clip_number,
                     selectedRecordingTotalClips: segmentRes.total_clips
                 }, () => {
-                    AppState.AppState.gSelectedAudioFileTimestampStart = segmentRes.current_clip_timestamp;
+                    AppState.gSelectedAudioFileTimestampStart = segmentRes.current_clip_timestamp;
                 });
             }
         } catch (error) {
@@ -158,13 +189,13 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 id = id.replace(".wav", "");
                 const res : AxiosResponse = await axios.post(`${apiUrl}/api/v1/audio_segments/${id}`);
                 const segmentRes : NextAudioSegmentResponse = new NextAudioSegmentResponse(res);
-                AppState.AppState.gUserHasRatedCurrentClip = false;
+                AppState.gUserHasRatedCurrentClip = false;
                 this.setState({
                     end_timestamp: segmentRes.next_segment_end_timestamp,
                     selectedRecordingCurrentClip: segmentRes.current_clip_index,
                     selectedRecordingTotalClips: segmentRes.total_clips
                 }, () => {
-                    AppState.AppState.gSelectedAudioFileTimestampStart = segmentRes.next_segment_start_timestamp;
+                    AppState.gSelectedAudioFileTimestampStart = segmentRes.next_segment_start_timestamp;
                     this.setAudioCurrentTime(segmentRes.next_segment_start_timestamp);
                 });
             }
@@ -230,7 +261,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 this.setState({
                     selectedAudioClip: undefined
                 }, () => {
-                    AppState.AppState.gSelectedAudioFileId = "";
+                    AppState.gSelectedAudioFileId = "";
                 })
                 return;
             }
@@ -246,7 +277,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
             }, () => {
                 let cleanFileName: string = audioClip.name.replace(".wav", "");
                 cleanFileName = cleanFileName.replace("audio/", "");
-                AppState.AppState.gSelectedAudioFileId = cleanFileName;
+                AppState.gSelectedAudioFileId = cleanFileName;
                 console.log("Clean File Name: ", cleanFileName);
                 this.getSelectedAudioFileState();
             });
@@ -254,7 +285,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
     }
 
     replayClip = () => {
-        let currentTimestamp: number = AppState.AppState.gSelectedAudioFileTimestampStart;
+        let currentTimestamp: number = AppState.gSelectedAudioFileTimestampStart;
         this.setAudioCurrentTime(currentTimestamp);
     }
 
@@ -268,7 +299,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         if (selectedAudioClip) {
             ageYYMMDD = this.getChildDOB(selectedAudioClip.name);
         } 
-        let userHasRatedClip: boolean = AppState.AppState.gUserHasRatedCurrentClip;
+        let userHasRatedClip: boolean = AppState.gUserHasRatedCurrentClip;
         console.log(audioClips);
         if (error) {
             return <div>Error: {error.message}</div>;
@@ -277,6 +308,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         } 
         return (
             <div className="rounded overflow-hidden shadow-lg">
+                {CharacterCounter()}
                 <AudioClipProgressHeader currentClip={selectedRecordingCurrentClip} totalClips={selectedRecordingTotalClips}></AudioClipProgressHeader>
                 <div className="px-6 py-4">
                 <div className="font-light text-md mb-2">HomeBank Flurry | Audio Classification Tool</div>
@@ -329,7 +361,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 
             </div>
             </div>
-        )
+        ) 
     }
 }
 

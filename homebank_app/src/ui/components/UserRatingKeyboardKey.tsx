@@ -1,7 +1,7 @@
 import React from 'react';
 import Url from '../../util/ApiUrl';
 import axios, { AxiosResponse } from 'axios';
-import AppState from '../../util/AppState';
+import {AppState} from '../../util/AppState';
 import AudioClipContainer from './AudioClipContainer';
 
 interface UserRatingKeyboardKeyProps {
@@ -17,15 +17,15 @@ class UserRatingKeyboardKey extends React.Component<UserRatingKeyboardKeyProps> 
     postUserRating = async () => {
         let title = this.props.title;
         const apiUrl : String = Url.getAPIUrl();
-        const clip_id : String = AppState.AppState.gSelectedAudioFileId.toString();
+        const clip_id : String = AppState.gSelectedAudioFileId.toString();
         console.log(clip_id);
         let data = {
             rating: title,
-            timestamp_start: AppState.AppState.gSelectedAudioFileTimestampStart
+            timestamp_start: AppState.gSelectedAudioFileTimestampStart
         }
         let res : AxiosResponse = await axios.post(`${apiUrl}/api/v1/audio_rating/${clip_id}`, data);
         if (res.status == 200) {
-            AppState.AppState.gUserHasRatedCurrentClip = true;
+            AppState.gUserHasRatedCurrentClip = true;
             this.props.audioContainer.forceUpdate();
         }
         console.log("/api/v1/audio_rating response", res.data);

@@ -7,6 +7,13 @@ import axios from 'axios';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import Home from "../src/ui/pages/Home";
 import SignInPage from "../src/ui/pages/SignInPage";
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from 'recoil';
 
 interface RouteWithTitleProps {
     title: string,
@@ -57,10 +64,12 @@ const Main = () => {
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
-        <AppHeader/>
-        <Main/>
-      </BrowserRouter>
+      <RecoilRoot>
+        <BrowserRouter>
+          <AppHeader/>
+          <Main/>
+        </BrowserRouter>
+      </RecoilRoot>
     </div>
   );
 }
