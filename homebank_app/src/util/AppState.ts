@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import { User } from "../model/User";
 
 const textState = atom({
     key: 'textState',
@@ -12,7 +13,20 @@ const charCountState = selector({
   
       return text.length;
     },
-  });
+});
+
+const userState = atom<User>({
+    key: 'userState',
+    default: new User({})
+});
+
+const getUserState = selector({
+    key: 'getUserState',
+    get: ({get}) => {
+        const user = get(userState);
+        return user;
+    },
+});
 
 class AppState {
     static gSelectedAudioFileId: string;
@@ -20,4 +34,4 @@ class AppState {
     static gUserHasRatedCurrentClip: boolean;
 }
 
-export {AppState, textState, charCountState}
+export {AppState, textState, charCountState, userState, getUserState}

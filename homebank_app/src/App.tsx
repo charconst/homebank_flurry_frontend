@@ -1,7 +1,7 @@
 import React, { ComponentClass } from 'react';
 import './App.css';
 import 'tailwindcss/dist/tailwind.css'
-import AppHeader from './ui/components/AppHeader'
+import {AppHeader} from './ui/components/AppHeader'
 import Helmet from 'react-helmet';
 import axios from 'axios';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
