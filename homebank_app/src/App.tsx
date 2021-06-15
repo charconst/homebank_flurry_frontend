@@ -1,4 +1,4 @@
-import React, { ComponentClass } from 'react';
+import React, { ComponentClass, useEffect } from 'react';
 import './App.css';
 import 'tailwindcss/dist/tailwind.css'
 import {AppHeader} from './ui/components/AppHeader'
@@ -14,6 +14,9 @@ import {
   useRecoilState,
   useRecoilValue,
 } from 'recoil';
+import { userState } from './util/AppState';
+import { User } from './model/User';
+import ApiUrl from './util/ApiUrl';
 
 interface RouteWithTitleProps {
     title: string,
@@ -61,10 +64,36 @@ const Main = () => {
     );
 }
 
+const apiUrl = ApiUrl.getAPIUrl();
+
+function AppState() {
+  const [loggedInUser, setLoggedInUser] = useRecoilState(userState);
+
+  const getUserData = async () => {
+    try {
+        const { data } = await axios.get(`${apiUrl}/api/v1/auth/me`);
+        const userData : User = new User(data);
+        setLoggedInUser(userData);
+        console.log("Results of /api/v1/auth/me", data);
+    } catch (err) {
+        setLoggedInUser(new User({}));
+        console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getUserData();
+  }, []);
+
+  return <div></div>
+}
+
 function App() {
+  
   return (
     <div className="App">
       <RecoilRoot>
+        <AppState></AppState>
         <BrowserRouter>
           <AppHeader/>
           <Main/>

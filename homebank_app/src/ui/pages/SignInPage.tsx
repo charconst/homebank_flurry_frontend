@@ -20,10 +20,6 @@ function SignInPage () {
 
     const count = useRecoilValue(charCountState);
 
-    useEffect(() => {
-        getUserData();
-    });
-
     const responseGoogle = async (googleResponse:any) => {
         console.log(googleResponse);
         const accessToken = googleResponse["tokenId"];
@@ -51,20 +47,6 @@ function SignInPage () {
         setJwt(null);
         setId(null);
         setLoggedInUser(new User({}));
-    }
-    
-    const getUserData = async () => {
-        try {
-            const { data } = await axios.get(`${apiUrl}/api/v1/auth/me`);
-            const userData : User = new User(data);
-            setLoggedInUser(userData);
-            console.log("Results of /api/v1/auth/me", data);
-            setFetchError(null);
-        } catch (err) {
-            setLoggedInUser(new User({}));
-            setFetchError(err.message);
-            console.log(err);
-        }
     }
 
     return (
