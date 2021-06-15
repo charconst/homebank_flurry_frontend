@@ -279,7 +279,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
             <div className="rounded overflow-hidden shadow-lg text-center">
                 <AudioClipProgressHeader currentClip={selectedRecordingCurrentClip} totalClips={selectedRecordingTotalClips}></AudioClipProgressHeader>
                 <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">HomeBank Audio Classification</div>
+                <div className="font-light text-md mb-2">HomeBank Flurry | Audio Classification Tool</div>
                 <h1><b>Selected Recording {selectedAudioClip?.name}</b></h1>
                 <p>{selectedAudioClip?.public_url}</p>
                 <select onChange={this.handleOnChange}>
