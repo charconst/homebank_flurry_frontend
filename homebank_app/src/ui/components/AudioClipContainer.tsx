@@ -34,6 +34,7 @@ class NextAudioSegmentResponse {
     next_segment_start_timestamp: number = 0;
     next_segment_end_timestamp:number = 0;
     total_clips: number = 0;
+    current_clip_index:number = 0;
 
     constructor(res: AxiosResponse) {
         let data = res.data;
@@ -45,6 +46,8 @@ class NextAudioSegmentResponse {
             this.next_segment_end_timestamp = data["next_segment_end_timestamp"];
         if (data["total_clips"])
             this.total_clips = data["total_clips"];
+        if (data["clip_number"])
+            this.current_clip_index = data["clip_number"];
     }
 }
 
@@ -157,7 +160,9 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 const segmentRes : NextAudioSegmentResponse = new NextAudioSegmentResponse(res);
                 AppState.AppState.gUserHasRatedCurrentClip = false;
                 this.setState({
-                    end_timestamp: segmentRes.next_segment_end_timestamp
+                    end_timestamp: segmentRes.next_segment_end_timestamp,
+                    selectedRecordingCurrentClip: segmentRes.current_clip_index,
+                    selectedRecordingTotalClips: segmentRes.total_clips
                 }, () => {
                     AppState.AppState.gSelectedAudioFileTimestampStart = segmentRes.next_segment_start_timestamp;
                     this.setAudioCurrentTime(segmentRes.next_segment_start_timestamp);
