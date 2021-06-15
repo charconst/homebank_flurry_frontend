@@ -17,8 +17,12 @@ function AppHeader() {
               Preferences
             </button>
             <button className="py-4 px-4 relative border-2 border-transparent text-gray-800 rounded-full hover:text-gray-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out">
-              <h1>{loggedInUser.name}</h1>
-              <Link to="/signin" className="font-bold text-xl text-black">Sign In</Link>
+              {!loggedInUser.id && (
+                <Link to="/signin" className="text-black text-base">Sign In</Link>
+              )}
+              {loggedInUser.id && (
+                <Link to="/signin" className="text-black text-base">{loggedInUser.name}</Link>
+              )}
             </button>
         </div>
       </div>
