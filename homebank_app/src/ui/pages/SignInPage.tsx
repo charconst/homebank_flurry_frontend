@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import GoogleLogin from 'react-google-login';
 import ApiUrl from '../../util/ApiUrl';
-import { charCountState, userState } from '../../util/AppState';
+import { userState } from '../../util/AppState';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { User } from '../../model/User';
 
@@ -17,8 +17,6 @@ function SignInPage () {
     const [id, setId] = useState(storedId || null);
     const [fetchError, setFetchError] = useState(null);
     const [loggedInUser, setLoggedInUser] = useRecoilState(userState);
-
-    const count = useRecoilValue(charCountState);
 
     const responseGoogle = async (googleResponse:any) => {
         console.log(googleResponse);
@@ -51,7 +49,6 @@ function SignInPage () {
 
     return (
         <div>
-            <h1>{count}</h1>
             <h1>{loggedInUser.name}</h1>
             {!loggedInUser.id && (
                 <GoogleLogin clientId="100265972375-l3fol743purv7qajo9en61in8815ukl2.apps.googleusercontent.com" 

@@ -1,20 +1,6 @@
 import { atom, selector } from "recoil";
 import { User } from "../model/User";
 
-const textState = atom({
-    key: 'textState',
-    default: ''
-});
-
-const charCountState = selector({
-    key: 'charCountState', // unique ID (with respect to other atoms/selectors)
-    get: ({get}) => {
-      const text = get(textState);
-  
-      return text.length;
-    },
-});
-
 const userState = atom<User>({
     key: 'userState',
     default: new User({})
@@ -34,4 +20,4 @@ class AppState {
     static gUserHasRatedCurrentClip: boolean;
 }
 
-export {AppState, textState, charCountState, userState, getUserState}
+export {AppState, userState, getUserState}

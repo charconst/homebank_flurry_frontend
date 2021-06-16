@@ -4,38 +4,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import AudioClipProgressHeader from '../components/AudioClipProgressHeader';
 import UserRatingContainer from './UserRatingContainer';
 import Url from '../../util/ApiUrl';
-import {AppState, charCountState, textState} from '../../util/AppState';
-import { atom, selector, useRecoilState, useRecoilValue } from 'recoil';
-
-function CharacterCount() {
-    const count = useRecoilValue(charCountState);
-    return <>Character Count: {count}</>;
-}
-
-function CharacterCounter() {
-    return (
-      <div>
-        <TextInput />
-        <CharacterCount />
-      </div>
-    );
-  }
-
-function TextInput() {
-    const [text, setText] = useRecoilState(textState);
-
-    const onChange = (event:any) => {
-        setText(event.target.value);
-    };
-
-    return (
-        <div>
-        <input type="text" value={text} onChange={onChange} />
-        <br />
-        Echo: {text}
-        </div>
-    );
-}
+import {AppState} from '../../util/AppState';
 
 interface AudioClipState {
     error: any,
@@ -309,7 +278,6 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         } 
         return (
             <div className="rounded overflow-hidden shadow-lg">
-                {CharacterCounter()}
                 <AudioClipProgressHeader currentClip={selectedRecordingCurrentClip} totalClips={selectedRecordingTotalClips}></AudioClipProgressHeader>
                 <div className="px-6 py-4">
                 <div className="font-light text-md mb-2">HomeBank Flurry | Audio Classification Tool</div>
