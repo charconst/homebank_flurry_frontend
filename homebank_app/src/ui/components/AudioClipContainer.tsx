@@ -301,6 +301,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         } 
         let userHasRatedClip: boolean = AppState.gUserHasRatedCurrentClip;
         console.log(audioClips);
+        let nextButtonEnabled: boolean = (userHasRatedClip || selectedRecordingCurrentClip == 0);
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -346,12 +347,12 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                         Replay Clip
                     </button>
                     <UserRatingContainer audioContainer={this}></UserRatingContainer>
-                    {!userHasRatedClip && (
+                    {!nextButtonEnabled && (
                         <button disabled className="bg-blue-500 opacity-30 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded flex-initial m-2 disabled:opacity-50">
                         Next Clip
                       </button>
                     )}
-                    {userHasRatedClip && (
+                    {nextButtonEnabled && (
                         <button onClick={this.getNextAudioSegment} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded flex-initial m-2">
                         Next Clip
                     </button>
