@@ -23,7 +23,7 @@ function AppHeader() {
         <div className="sm:flex md:flex flex-col md:flex-row md:ml-auto mt-3 md:mt-0" id="navbar-collapse">
             {loggedInUser.id && (
               <div className="mt-2 space-x-6">
-                <Link to="/signin" className="text-black text-base">{loggedInUser.name}</Link>
+                <Link to="/signin" className="text-black text-base">My Profile</Link>
                 <button onClick={logOut}>Sign Out</button>
               </div>
             )}
