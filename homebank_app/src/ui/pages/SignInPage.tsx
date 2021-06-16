@@ -45,7 +45,7 @@ function SignInPage () {
                     <h1 className="text-4xl m-2">Sign In</h1>
                     <p className="mt-4 font-light">We use the Google OAuth protocol to manage researcher access to this audio classification tool.</p>
                     <p className="m-4"><b>Click</b> the button below to login with Google.</p>
-                    <GoogleLogin clientId="100265972375-l3fol743purv7qajo9en61in8815ukl2.apps.googleusercontent.com" 
+                    <GoogleLogin className="outline-black" clientId="100265972375-l3fol743purv7qajo9en61in8815ukl2.apps.googleusercontent.com" 
                     onSuccess={responseGoogle}
                     onFailure={responseGoogle}
                     buttonText="Sign In with Google"
