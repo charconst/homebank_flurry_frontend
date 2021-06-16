@@ -272,7 +272,11 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         console.log(audioClips);
         let nextButtonEnabled: boolean = (userHasRatedClip || selectedRecordingCurrentClip == 0);
         if (error) {
-            return <div>Error: {error.message}</div>;
+            return <div>
+                <h1 className="text-2xl m-2">Sign In to Access This Page</h1>
+                <a href="/signin" className="m-2 underline text-blue-600 hover:text-blue-800 visited:text-purple-600">Sign In</a>
+                <p className="mt-2 text-sm align-text-bottom font-light">More Information about why you're seeing this message: [Error: {error.message}]</p>
+            </div>;
         } else if (!isLoaded) {
             return <div>Loading...</div>;
         } 
