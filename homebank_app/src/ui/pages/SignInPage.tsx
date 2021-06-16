@@ -49,7 +49,6 @@ function SignInPage () {
 
     return (
         <div>
-            <h1>{loggedInUser.name}</h1>
             {!loggedInUser.id && (
                 <GoogleLogin clientId="100265972375-l3fol743purv7qajo9en61in8815ukl2.apps.googleusercontent.com" 
                 onSuccess={responseGoogle}
