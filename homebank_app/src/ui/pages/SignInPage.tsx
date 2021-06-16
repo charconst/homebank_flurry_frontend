@@ -38,15 +38,6 @@ function SignInPage () {
         }
     }
 
-    const signOut = async () => {
-        // TODO invalidate token on server
-        localStorage.removeItem('token');
-        localStorage.removeItem('user_id');
-        setJwt(null);
-        setId(null);
-        setLoggedInUser(new User({}));
-    }
-
     return (
         <div>
             {!loggedInUser.id && (
@@ -69,9 +60,7 @@ function SignInPage () {
                             <p className="font-light m-4 pb-8">Head back to the home page to get started.</p>
                             <Link to="/" className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Get Started</Link>
                         </div>
-
                         <p className="text-sm m-4 mx-auto">Logged in as: <b>[{loggedInUser.id}]</b></p>
-                        <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-full m-2" onClick={signOut}>Sign Out</button>
                     </div>
                 </div>
             )}
