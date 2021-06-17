@@ -5,6 +5,7 @@ import AudioClipProgressHeader from '../components/AudioClipProgressHeader';
 import UserRatingContainer from './UserRatingContainer';
 import Url from '../../util/ApiUrl';
 import {AppState} from '../../util/AppState';
+import { Link } from 'react-router-dom';
 
 interface AudioClipState {
     error: any,
@@ -274,7 +275,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         if (error) {
             return <div>
                 <h1 className="text-2xl m-2">Sign In to Access This Page</h1>
-                <a href="/signin" className="m-2 underline text-blue-600 hover:text-blue-800 visited:text-purple-600">Sign In</a>
+                <Link to="/signin" className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Sign In</Link>
                 <p className="mt-2 text-sm align-text-bottom font-light">More Information about why you're seeing this message: [Error: {error.message}]</p>
             </div>;
         } else if (!isLoaded) {
