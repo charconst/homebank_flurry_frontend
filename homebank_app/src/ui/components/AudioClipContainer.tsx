@@ -274,7 +274,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         let nextButtonEnabled: boolean = (userHasRatedClip || selectedRecordingCurrentClip == 0);
         if (error) {
             return <div>
-                <h1 className="text-2xl m-2">Sign In to Access This Page</h1>
+                <h1 className="">Sign In to Access This Page</h1>
                 <Link to="/signin" className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Sign In</Link>
                 <p className="mt-2 text-sm align-text-bottom font-light">More Information about why you're seeing this message: [Error: {error.message}]</p>
             </div>;
