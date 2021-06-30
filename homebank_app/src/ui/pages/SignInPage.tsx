@@ -38,6 +38,15 @@ function SignInPage () {
         }
     }
 
+    const exportDatabase = async () => {
+        try {
+            const {data} = await axios.get(`${apiUrl}/api/v1/export`);
+            console.log(data);
+        } catch(err) {
+            alert(err);
+        }
+    }
+
     return (
         <div>
             {!loggedInUser.id && (
@@ -67,6 +76,7 @@ function SignInPage () {
                             <Link to="/" className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Get Started</Link>
                         </div>
                         <p className="text-sm m-4 mx-auto">Logged in as: <b>[{loggedInUser.id}]</b></p>
+                        <button onClick={exportDatabase}>Export Data</button>
                     </div>
                 </div>
             )}
