@@ -2,16 +2,22 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import url('https://fonts.googleapis.com/css2?family=Benne&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Benne&family=Roboto&display=swap');
 
 @layer base {
     h1 {
-      @apply text-4xl;
-      @apply font-serif;
-      @apply m-4;
+        @apply text-4xl;
+        @apply font-serif;
+        @apply m-4;
     }
     h2 {
-      @apply text-xl;
+        @apply text-xl;
+    }
+    p {
+        @apply font-sans;
+    }
+    div {
+        @apply font-sans;
     }
   }
 

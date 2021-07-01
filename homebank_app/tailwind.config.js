@@ -5,6 +5,9 @@ module.exports = {
     fontFamily: {
       serif: [
         'Benne'
+      ],
+      sans: [
+        'Roboto'
       ]
     },
     container: {
