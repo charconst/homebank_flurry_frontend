@@ -7,17 +7,17 @@
 @layer base {
     h1 {
         @apply text-4xl;
-        @apply font-serif;
         @apply m-4;
+        @apply text-accent-neutral;
     }
     h2 {
         @apply text-xl;
     }
     p {
-        @apply font-sans;
+        @apply text-accent-neutral;
     }
     div {
-        @apply font-sans;
+        @apply text-accent-secondary;
     }
   }
 

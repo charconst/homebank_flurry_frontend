@@ -73,7 +73,7 @@ function SignInPage () {
                         <div className="w-full h-64 space-y-4 mt-16">
                             <h1 className="text-2xl font-bold">Great! You're all signed in. </h1>
                             <p className="font-light m-4 pb-8">Head back to the home page to get started.</p>
-                            <Link to="/" className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Get Started</Link>
+                            <Link to="/" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">Get Started</Link>
                         </div>
                         <p className="text-sm m-4 mx-auto">Logged in as: <b>[{loggedInUser.id}]</b></p>
                         <button onClick={exportDatabase}>Export Data</button>

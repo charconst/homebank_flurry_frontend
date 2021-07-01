@@ -15,20 +15,20 @@ function AppHeader() {
       alert("Signed Out.");
     }
     return <div className="header-2 bg-yellow-300">
-    <nav className="bg-white py-2 md:py-4 border-b border-gray-200">
+    <nav className="bg-white py-2 md:py-4 border-b border-gray-200 bg-green-600">
       <div className="container px-4 mx-auto md:flex md:items-center">
         <div className="flex justify-between items-center">
-          <Link to="/" className="font-bold text-xl text-indigo-600">HBF</Link>
+          <Link to="/" className="text-2xl text-black font-bold text-white">HBF</Link>
         </div>
         <div className="sm:flex md:flex flex-col md:flex-row md:ml-auto mt-3 md:mt-0" id="navbar-collapse">
             {loggedInUser.id && (
               <div className="mt-2 space-x-6">
-                <Link to="/signin" className="text-black text-base">My Profile</Link>
-                <button onClick={logOut}>Sign Out</button>
+                <Link to="/signin" className="text-white text-base">My Profile</Link>
+                <button className="text-white" onClick={logOut}>Sign Out</button>
               </div>
             )}
             {!loggedInUser.id && (
-              <Link to="/signin" className="text-black text-base">Sign In</Link>
+              <Link to="/signin" className="text-white text-base">Sign In</Link>
             )}
         </div>
       </div>

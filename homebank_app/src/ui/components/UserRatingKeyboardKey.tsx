@@ -33,7 +33,7 @@ class UserRatingKeyboardKey extends React.Component<UserRatingKeyboardKeyProps> 
     
     render() {
         return (
-            <button onClick={this.postUserRating} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded flex-initial m-2">
+            <button onClick={this.postUserRating} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-8 border border-green-500 hover:border-transparent rounded flex-initial m-2">
                         {this.props.title}
             </button>
         )

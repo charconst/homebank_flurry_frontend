@@ -285,14 +285,14 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
             <div className="rounded overflow-hidden shadow-lg">
                 <AudioClipProgressHeader currentClip={selectedRecordingCurrentClip} totalClips={selectedRecordingTotalClips}></AudioClipProgressHeader>
                 <div className="px-6 py-4">
-                <div className="font-light text-md mb-2">HomeBank Flurry | Audio Classification Tool</div>
-                <h1 className="text-2xl mt-4 mb-4"><b>{selectedAudioClip?.name}</b></h1>
-                <p>Select which day-long recording you’ll work on</p>
-                <select onChange={this.handleOnChange}>
+                <div className="font-light text-md mb-2 text-green-900">HomeBank Flurry | Audio Classification Tool</div>
+                <h1 className="text-2xl mt-4 mb-4 text-green-800"><b>{selectedAudioClip?.name}</b></h1>
+                <p className="text-xl m-4">Select which day-long recording you’ll work on:</p>
+                <select className="m-4 border-8 border-green-500" onChange={this.handleOnChange}>
                     {this.mapAudioClips(audioClips)}
                 </select>
-                <div className="bg-green-500 mx-auto justify-items-center px-8 mt-4">
-                    <div className="text-gray-700 font-light text-center py-8 text-lg break-words">
+                <div className="bg-green-800 mx-auto justify-items-center px-8 mt-4">
+                    <div className="text-white font-light text-center py-8 text-lg break-words">
                     <i>You will be asked about the prominence within the clip of the voice 
                     of the child wearing the recorder (i.e. the target child) compared to 
                     all other sounds, such as other voices, background noise, rustling, etc.
@@ -300,7 +300,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                     trilling the lips, coughing, grunting, or any other sound produced
                     using the throat, lips, and/or tongue.</i>
                     {ageYYMMDD != "" && (
-                    <div className="mt-8 text-m font-medium underline">
+                    <div className="mt-8 text-m font-medium underline text-white">
                         Note that the target child in this case is <b>{ageYYMMDD.slice(0, 2) + " years, "} 
                         {ageYYMMDD.slice(2, 4) + " months, "} 
                         {ageYYMMDD.slice(4, 6) + " days. "}</b>
@@ -309,31 +309,31 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                     </div>
                 </div>
                 
-                <div className="bg-gray-300 text-2xl font-light py-4 px-32">
-                <p className="py-4"><b>Click 1</b> if you heard only the target child's voice.</p>
-                <p className="py-4"><b>Click 2</b> if you heard some background noise or other sound(s) but the infant vocalization is clearly the dominant sound in the clip.
+                <div className="bg-green-900 text-2xl font-light py-4 px-32">
+                <p className="py-4 text-white"><b>Click 1</b> if you heard only the target child's voice.</p>
+                <p className="py-4 text-white"><b>Click 2</b> if you heard some background noise or other sound(s) but the infant vocalization is clearly the dominant sound in the clip.
 </p>
-                <p className="py-4"><b>Click 3</b> if you heard some background noise or other sound(s) and 
+                <p className="py-4 text-white"><b>Click 3</b> if you heard some background noise or other sound(s) and 
                 the target child vocalization and the other sound(s) are similar in
                 how dominant they are within the clip.</p>
-                <p className="py-4"><b>Click 4</b> if you heard a target child vocalization but it was definitely 
+                <p className="py-4 text-white"><b>Click 4</b> if you heard a target child vocalization but it was definitely 
                 not the dominant sound in the clip.</p>
-                <p className="py-4"><b>Click 5</b> if there did not appear to be a target child vocalization
+                <p className="py-4 text-white"><b>Click 5</b> if there did not appear to be a target child vocalization
                 within the clip.</p>
                 </div>
                 <ReactAudioPlayer ref={this.audioPlayer} controls className="container mx-auto m-8"src={selectedAudioClip?.public_url}></ReactAudioPlayer>
                 <div className="flex h-16 flex-wrap justify-center">
-                <button onClick={this.replayClip} className="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-8 border border-blue-500 hover:border-transparent rounded flex-initial m-2">
+                <button onClick={this.replayClip} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-8 border border-green-500 hover:border-transparent rounded flex-initial m-2">
                         Replay Clip
                     </button>
                     <UserRatingContainer audioContainer={this}></UserRatingContainer>
                     {!nextButtonEnabled && (
-                        <button disabled className="bg-blue-500 opacity-30 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded flex-initial m-2 disabled:opacity-50">
+                        <button disabled className="bg-green-500 opacity-30 hover:bg-green-700 text-white font-bold py-2 px-8 rounded flex-initial m-2 disabled:opacity-50">
                         Next Clip
                       </button>
                     )}
                     {nextButtonEnabled && (
-                        <button onClick={this.getNextAudioSegment} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-8 rounded flex-initial m-2">
+                        <button onClick={this.getNextAudioSegment} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-8 rounded flex-initial m-2">
                         Next Clip
                     </button>
                     )
