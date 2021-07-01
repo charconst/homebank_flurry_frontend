@@ -291,7 +291,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 <select className="m-4 border-8 border-green-500" onChange={this.handleOnChange}>
                     {this.mapAudioClips(audioClips)}
                 </select>
-                <div className="bg-green-800 mx-auto justify-items-center px-8 mt-4">
+                <div className="bg-green-600 mx-auto justify-items-center px-8 mt-4">
                     <div className="text-white font-light text-center py-8 text-lg break-words">
                     <i>You will be asked about the prominence within the clip of the voice 
                     of the child wearing the recorder (i.e. the target child) compared to 
@@ -309,7 +309,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                     </div>
                 </div>
                 
-                <div className="bg-green-900 text-2xl font-light py-4 px-32">
+                <div className="bg-green-500 text-2xl font-light py-4 px-32">
                 <p className="py-4 text-white"><b>Click 1</b> if you heard only the target child's voice.</p>
                 <p className="py-4 text-white"><b>Click 2</b> if you heard some background noise or other sound(s) but the infant vocalization is clearly the dominant sound in the clip.
 </p>
