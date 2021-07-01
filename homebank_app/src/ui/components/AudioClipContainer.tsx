@@ -310,16 +310,16 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 </div>
                 
                 <div className="bg-green-500 text-2xl font-light py-4 px-32">
-                <p className="py-4 text-white"><b>Click 1</b> if you heard only the target child's voice.</p>
-                <p className="py-4 text-white"><b>Click 2</b> if you heard some background noise or other sound(s) but the infant vocalization is clearly the dominant sound in the clip.
-</p>
-                <p className="py-4 text-white"><b>Click 3</b> if you heard some background noise or other sound(s) and 
+                <h2 className="text-white text-3xl underline">Select one of the following options for each audio clip:</h2>
+                <div className="text-white m-8"><span className="font-bold">1:</span><span className=""> You heard only the target child's voice.</span></div>
+                <div className="text-white m-8"><span className="font-bold">2:</span><span className=""> You heard some background noise or other sound(s) but the infant vocalization is clearly the dominant sound in the clip.</span></div>
+                <div className="text-white m-8"><span className="font-bold">3:</span><span className=""> You heard some background noise or other sound(s) and 
                 the target child vocalization and the other sound(s) are similar in
-                how dominant they are within the clip.</p>
-                <p className="py-4 text-white"><b>Click 4</b> if you heard a target child vocalization but it was definitely 
-                not the dominant sound in the clip.</p>
-                <p className="py-4 text-white"><b>Click 5</b> if there did not appear to be a target child vocalization
-                within the clip.</p>
+                how dominant they are within the clip.</span></div>
+                <div className="text-white m-8"><span className="font-bold">4:</span><span className=""> You heard a target child vocalization but it was definitely 
+                not the dominant sound in the clip.</span></div>
+                <div className="text-white m-8"><span className="font-bold">5:</span><span className=""> There did not appear to be a target child vocalization
+                within the clip.</span></div>
                 </div>
                 <ReactAudioPlayer ref={this.audioPlayer} controls className="container mx-auto m-8"src={selectedAudioClip?.public_url}></ReactAudioPlayer>
                 <div className="flex h-16 flex-wrap justify-center">
