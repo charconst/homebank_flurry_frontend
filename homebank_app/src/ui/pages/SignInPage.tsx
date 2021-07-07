@@ -76,7 +76,9 @@ function SignInPage () {
                             <Link to="/" className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-4 border border-green-500 hover:border-transparent rounded">Get Started</Link>
                         </div>
                         <p className="text-sm m-4 mx-auto">Logged in as: <b>[{loggedInUser.id}]</b></p>
-                        <button onClick={exportDatabase}>Export Data</button>
+                        {loggedInUser.is_admin && (
+                            <button onClick={exportDatabase}>Export Data</button>
+                        )}
                     </div>
                 </div>
             )}
