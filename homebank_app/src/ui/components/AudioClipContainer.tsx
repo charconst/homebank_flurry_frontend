@@ -339,11 +339,17 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 within the clip.</span></div>
                 </div>
                 <ReactAudioPlayer ref={this.audioPlayer} controls className="container mx-auto m-8"src={selectedAudioClip?.public_url}></ReactAudioPlayer>
-                <div className="flex h-16 flex-wrap justify-center">
-                <button onClick={this.replayClip} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-8 border border-green-500 hover:border-transparent rounded flex-initial m-2">
-                        Replay Clip
-                    </button>
-                    <UserRatingContainer audioContainer={this}></UserRatingContainer>
+                <div className="">
+                    {selectedRecordingCurrentClip > 0 && (
+                        <div className="flex h-16 flex-wrap justify-center">
+                            <button onClick={this.replayClip} className="bg-transparent hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 px-8 border border-green-500 hover:border-transparent rounded flex-initial m-2">
+                                Replay Clip
+                            </button>
+                            <UserRatingContainer audioContainer={this}></UserRatingContainer>
+                        </div>
+
+                    )}
+                    
                     {!nextButtonEnabled && (
                         <button disabled className="bg-green-500 opacity-30 hover:bg-green-700 text-white font-bold py-2 px-8 rounded flex-initial m-2 disabled:opacity-50">
                         Next Clip
