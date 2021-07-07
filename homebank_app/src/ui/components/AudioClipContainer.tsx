@@ -104,17 +104,32 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
         return fileName.replace("audio/", "");
     }
 
-    setAudioCurrentTime(timeInSeconds: number):void {
+    getAudioElement():HTMLAudioElement | undefined  {
+        let audioElement: HTMLAudioElement | undefined = undefined;
         if (this.audioPlayer.current && this.audioPlayer.current.audioEl.current) {
-            let audioElement: HTMLAudioElement = this.audioPlayer.current.audioEl.current;
+            return this.audioPlayer.current.audioEl.current;
+        }        
+        return audioElement;
+    }
+
+    setAudioCurrentTime(timeInSeconds: number):void {
+        let audioElement = this.getAudioElement();
+        if (audioElement) {
             audioElement.currentTime = timeInSeconds;
             audioElement.ontimeupdate = null;
             audioElement.ontimeupdate = (ev: Event) => {
-                if (audioElement.currentTime >= this.state.end_timestamp)
-                    audioElement.pause();
+                if (audioElement)
+                    if (audioElement.currentTime >= this.state.end_timestamp)
+                        audioElement.pause();
             }
-            audioElement.play();
         }
+    }
+
+    playAudio():void {
+        let audioElement = this.getAudioElement();
+        if (audioElement) {
+            audioElement.play();
+        }   
     }
 
     formatSelectedAudioClipName = (name: string) => {
@@ -167,6 +182,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                 }, () => {
                     AppState.gSelectedAudioFileTimestampStart = segmentRes.next_segment_start_timestamp;
                     this.setAudioCurrentTime(segmentRes.next_segment_start_timestamp);
+                    this.playAudio();
                 });
             }
         } catch (error) {
@@ -257,6 +273,7 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
     replayClip = () => {
         let currentTimestamp: number = AppState.gSelectedAudioFileTimestampStart;
         this.setAudioCurrentTime(currentTimestamp);
+        this.playAudio();
     }
 
     componentDidMount() {
