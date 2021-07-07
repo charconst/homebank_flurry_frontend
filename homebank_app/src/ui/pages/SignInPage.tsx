@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import ReactDOM from 'react-dom';
 import { Link } from "react-router-dom";
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import GoogleLogin from 'react-google-login';
 import ApiUrl from '../../util/ApiUrl';
 import { userState } from '../../util/AppState';
@@ -17,6 +17,7 @@ function SignInPage () {
     const [id, setId] = useState(storedId || null);
     const [fetchError, setFetchError] = useState(null);
     const [loggedInUser, setLoggedInUser] = useRecoilState(userState);
+    const [isExportFinished, setIsExportFinished] = useState(true);
 
     const responseGoogle = async (googleResponse:any) => {
         console.log(googleResponse);
@@ -40,11 +41,20 @@ function SignInPage () {
 
     const exportDatabase = async () => {
         try {
-            const {data} = await axios.get(`${apiUrl}/api/v1/export`);
-            console.log(data);
+            setIsExportFinished(false);
+            let res: AxiosResponse = await axios.get(`${apiUrl}/api/v1/export`);
+            if (res.status === 200) {
+                setIsExportFinished(true);
+                alert('Successfully uploaded!');
+            }
         } catch(err) {
             alert(err);
+            setIsExportFinished(true);
         }
+    }
+
+    if (!isExportFinished) {
+        return <div className="m-4">Exporting database to Cloud Storage...</div>;
     }
 
     return (
