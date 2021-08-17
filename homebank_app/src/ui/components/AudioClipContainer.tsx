@@ -78,6 +78,10 @@ class GetAudioSegmentResponse {
 
 class AudioClipContainer extends React.Component<{}, AudioClipState> {
     private audioPlayer: React.RefObject<ReactAudioPlayer>;
+    private audioElement: HTMLAudioElement | undefined;
+    private timerId:number = -1;
+    private startTime:number = -1;
+    private clipStartTime:number = -1;
 
     constructor(props:any) {
         super(props);
@@ -113,22 +117,43 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
     }
 
     setAudioCurrentTime(timeInSeconds: number):void {
-        let audioElement = this.getAudioElement();
-        if (audioElement) {
-            audioElement.currentTime = timeInSeconds;
-            audioElement.ontimeupdate = null;
-            audioElement.ontimeupdate = (ev: Event) => {
-                if (audioElement)
-                    if (audioElement.currentTime >= this.state.end_timestamp)
-                        audioElement.pause();
-            }
+        this.audioElement = this.getAudioElement();
+        if (this.audioElement) {
+            this.audioElement.currentTime = timeInSeconds;
         }
     }
 
     playAudio():void {
         let audioElement = this.getAudioElement();
         if (audioElement) {
-            audioElement.play();
+            const highResolutionTimer = (timestamp:number) => {
+                if (this.audioElement) {
+                    if (this.startTime === -1) {
+                        this.startTime = timestamp;
+                    }
+                        
+                    const elapsed:number = timestamp - this.startTime;
+                    console.log(elapsed);
+
+                    if (this.clipStartTime + elapsed/1000 >= this.state.end_timestamp) {
+                        this.audioElement.pause();
+                        console.log(`Paused clip at ${this.audioElement.currentTime}`);
+                        window.cancelAnimationFrame(this.timerId);
+                        this.timerId = -1;
+                        this.startTime = -1;
+                    } else {
+                        requestAnimationFrame(highResolutionTimer);
+                    } 
+                }  
+            }
+            if (this.timerId === -1) {
+                this.startTime = -1;
+                this.clipStartTime = audioElement.currentTime;
+                console.log(`Clip start time: ${this.clipStartTime}`);
+                window.cancelAnimationFrame(this.timerId);
+                this.timerId = window.requestAnimationFrame(highResolutionTimer);
+                audioElement.play();
+            }
         }   
     }
 
