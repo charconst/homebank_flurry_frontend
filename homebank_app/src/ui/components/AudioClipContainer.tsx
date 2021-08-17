@@ -135,9 +135,10 @@ class AudioClipContainer extends React.Component<{}, AudioClipState> {
                     const elapsed:number = timestamp - this.startTime;
                     console.log(elapsed);
 
-                    if (this.clipStartTime + elapsed/1000 >= this.state.end_timestamp) {
+                    let currentTime:number = this.clipStartTime + elapsed/1000;
+                    if (currentTime >= this.state.end_timestamp) {
                         this.audioElement.pause();
-                        console.log(`Paused clip at ${this.audioElement.currentTime}`);
+                        console.log(`Paused clip at ${currentTime}`);
                         window.cancelAnimationFrame(this.timerId);
                         this.timerId = -1;
                         this.startTime = -1;
