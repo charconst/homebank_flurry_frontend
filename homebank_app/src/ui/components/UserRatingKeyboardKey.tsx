@@ -3,6 +3,7 @@ import Url from '../../util/ApiUrl';
 import axios, { AxiosResponse } from 'axios';
 import {AppState} from '../../util/AppState';
 import AudioClipContainer from './AudioClipContainer';
+import { AppVersion } from '../../util/AppVersion';
 
 interface UserRatingKeyboardKeyProps {
     title: string,
@@ -21,6 +22,7 @@ class UserRatingKeyboardKey extends React.Component<UserRatingKeyboardKeyProps> 
         console.log(clip_id);
         let data = {
             rating: title,
+            client_version: AppVersion.version,
             timestamp_start: AppState.gSelectedAudioFileTimestampStart
         }
         let res : AxiosResponse = await axios.post(`${apiUrl}/api/v1/audio_rating/${clip_id}`, data);
